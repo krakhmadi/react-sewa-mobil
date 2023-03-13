@@ -26,10 +26,10 @@ const Header = (props) => {
                             </button>
                         </div>
                         <ul className="nav nav-pills d-none d-lg-flex justify-content-lg-center">
-                            <li className="nav-item"><a href="#sectionOurServices" className="nav-link">Our Services</a></li>
-                            <li className="nav-item"><a href="#sectionWhyUs" className="nav-link">Why Us</a></li>
-                            <li className="nav-item"><a href="#sectionTestimonial" className="nav-link">Testimonial</a></li>
-                            <li className="nav-item"><a href="#sectionFAQ" className="nav-link">FAQ</a></li>
+                            <li className="nav-item"><a href="/#sectionOurServices" className="nav-link">Our Services</a></li>
+                            <li className="nav-item"><a href="/#sectionWhyUs" className="nav-link">Why Us</a></li>
+                            <li className="nav-item"><a href="/#sectionTestimonial" className="nav-link">Testimonial</a></li>
+                            <li className="nav-item"><a href="/#sectionFAQ" className="nav-link">FAQ</a></li>
                         </ul>
                         <div className="text-end">
                             <button
