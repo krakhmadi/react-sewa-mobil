@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/css/index.css';
 import './assets/css/global-style.css'
 import './assets/css/hasil-pencarian.css'
+import './assets/css/payment.css'
+import './assets/css/confirm.css'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';

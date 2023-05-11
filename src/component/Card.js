@@ -2,7 +2,7 @@ import React from 'react';
 const Card = (component) => {
     return (
         <div style={{
-            borderRadius: "12px",
+            borderRadius: "7px",
             background: "white",
             maxWidth: "500px",
             width: "100%",

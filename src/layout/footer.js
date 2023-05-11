@@ -9,7 +9,7 @@ import logo from '../assets/images/logo/rentalll.png'
 const Footer = (props) => {
     return(
       <footer className="footer-component mt-5">
-        <div className="container container-custom footer-custom">
+        <div className="container footer-custom">
           <div className="row">
             <div className="col-12 col-md-6 col-lg-3 col-xl-4 px-3 px-md-0 px-lg-2">
               <div className="wrapper-info-company-footer">

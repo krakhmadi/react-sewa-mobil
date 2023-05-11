@@ -6,6 +6,9 @@
 }
 .container-search{
   margin-bottom: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
 }
 /* .container-search{
     margin-bottom: 4rem;

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Col, Row, Spinner } from 'reactstrap';
+import Button from '../../../component/Button';
 import Input from '../../../component/Input';
 import Segment from '../../../component/Segment';
 import SelectBox from '../../../component/Selectbox';
@@ -13,6 +14,7 @@ const carSize = {
 }
 
 const DetailCar = (props) => {
+    const navigate = useNavigate();
     const [data, setData] = useState(null);
     const [loader, setloader] = useState("idle");
     const { id } = useParams();
@@ -117,10 +119,21 @@ const DetailCar = (props) => {
                                     <Segment className="py-1 paragraph-form">
                                         <i className='fa fa-users'></i> {carSize[data?.category]}
                                     </Segment>
+                                    <Segment className='py-1 detail-paragraph-form'>
+                                        <p>Tentukan lama sewa mobil (max. 7 hari)</p>
+                                    </Segment>
+                                    <Segment>
+                                        
+                                    </Segment>
                                     <Segment className="d-flex justify-content-between py-1">
                                         <Segment className="title-form">Total</Segment>
                                         <Segment className="title-form">{formatNumber(data?.price)}</Segment>
                                     </Segment>
+                                    <Button
+                                        onClick={() => navigate('/payment')}
+                                        className="btn btn-success">
+                                        Lanjutkan Pembayaran
+                                    </Button>
                                 </Segment>
                             </Segment>
                         </Col>

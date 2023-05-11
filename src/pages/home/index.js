@@ -8,6 +8,8 @@ import twentyFour from '../../assets/images/icons/icon_24hrs.png';
 import proffesionals from '../../assets/images/icons/icon_professional.png';
 import testimoni from '../../assets/images/testimoni/testimoni_1.png';
 import rate from '../../assets/images/testimoni/Rate.svg'
+import Button from "../../component/Button";
+import gambarMobil from '../../assets/images/img_car.png';
 
 
 const Home = (props) => {
@@ -15,6 +17,31 @@ const Home = (props) => {
     return(
         
         <div>
+            <section className="section-banner">
+                <div className="wrapper-banner">
+                    <div className="grid-item item-1 px-3 px-md-4 ps-lg-3 ps-xl-0 pe-lg-0">
+                        <div className="parent-text ps-lg-3 ps-xl-0">
+                            <div className="text">
+                                <h1 className="judul fw-bold mb-3">Sewa & Rental mobil Terbaik di kawasan (lokasimu)</h1>
+                                <p className="deskripsi fw-bold mb-3">
+                                    Selamat datang di Binar Car Rental. Kami menyediakan mobil kualitas terbaik dengan harga terjangkau. Selalu siap
+                                    melayani kebutuhanmu untuk sewa mobil selama 24 jam.
+                                </p>
+                            </div>
+                            <Button
+                                onClick={() => navigate('/cari-mobil')}
+                                className="btn btn-success">
+                                Mulai Sewa Mobil
+                            </Button>
+                        </div>
+                    </div>
+                    <div className="grid-item item-2 ps-3 ps-md-4 ps-lg-0 d-flex align-items-end">
+                        <div className="wrapper-mobil">
+                            <img src={gambarMobil} alt="mercy" className="mobil"/>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <section className="section-layanan px-3" id="sectionOurServices">
                 <div className="container container-custom px-0">
                     <div className="d-block d-lg-flex justify-content-lg-between">

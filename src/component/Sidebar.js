@@ -1,6 +1,9 @@
 import React from 'react';
+import Button from './Button';
+import { useNavigate } from 'react-router-dom';
 
 const SideBar = ({ open, close }) => {
+    const navigate = useNavigate();
     return (
         <aside id="aside-nav" className={open ? `d-flex` : "d-none"}>
             <div className="side-nav-bar">
@@ -13,6 +16,13 @@ const SideBar = ({ open, close }) => {
                     <li className="nav-item"><a href="#sectionWhyUs" className="nav-link">Why Us</a></li>
                     <li className="nav-item"><a href="#sectionTestimonial" className="nav-link">Testimonial</a></li>
                     <li className="nav-item"><a href="#sectionFAQ" className="nav-link">FAQ</a></li>
+                    <li>
+                        <Button
+                            onClick={() => navigate('/cari-mobil')}
+                            className="nav-item btn btn-success">
+                            Register
+                        </Button>
+                    </li>
                 </ul>
             </div>
         </aside>
