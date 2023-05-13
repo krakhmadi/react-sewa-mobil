@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Col, Row, Spinner } from 'reactstrap';
+import { Card, Col, Row, Spinner } from 'reactstrap';
 import Button from '../../../component/Button';
-import Form from '../../../component/Form';
-import Input from '../../../component/Input';
 import Segment from '../../../component/Segment';
-import SelectBox from '../../../component/Selectbox';
+import BackButton from '../../../component/BackButton';
 import Summary from '../../../component/Summary';
 import bca from '../../../assets/images/payment/bca.png'
 import bni from '../../../assets/images/payment/bni.png'
@@ -13,11 +11,17 @@ import mandiri from '../../../assets/images/payment/mandiri.png'
 
 const Payment = (props) => {
     const navigate = useNavigate()
-    // const changeIcon = (icon) => icon.classList.toggle("fa-solid fa-chevron-down");
-    const [toggle, setToggle] = useState(true);
-    const handleClick = () => {
-        setToggle(!toggle);
-      };
+    const [show, toggleShow] = useState(true);
+    
+    const [selectBank, setSelectBank] = useState([])
+    const bank = [
+        {id: 1, img: bca, name: "BCA Transfer"},
+        {id: 2, img: bni, name: "BNI Transfer"},
+        {id: 3, img: mandiri, name: "Mandiri Transfer"},
+    ]
+    const handleClick = (params) => {
+        setSelectBank(params)
+    }
     
     return(
         <>
@@ -25,10 +29,9 @@ const Payment = (props) => {
             
             <Segment className="container-search container">
                 <Segment className="d-flex payment-nav justify-content-between flex-row">
-                    <Segment className="nav-left d-flex gap-4 align-items-center title-form ">
-                        <i class="fa-solid fa-arrow-left"></i>
-                        Pembayaran
-                        
+                    <Segment className="nav-left">
+                        {/* <i style={{cursor: "pointer"}} onClick={goBack} class="fa-solid fa-arrow-left"></i> */}
+                        <BackButton>Pembayaran</BackButton>
                     </Segment>
                     <Segment className="nav-right d-flex gap-2 align-items-center title-form justify-content-end">
                         Pilih Metode 
@@ -57,18 +60,22 @@ const Payment = (props) => {
                                     <p className='paragraph-summary'>Kamu bisa membayar dengan transfer melalui ATM, Internet Banking atau Mobile Banking</p>
                                 </Segment>
                                 <Segment className="payment-bank">
-                                   <Segment className='d-flex align-items-center gap-4 my-4'>
-                                        <img src={bca} alt='bca' className='payment-image'></img>
-                                        <p className='my-0'>BCA Transfer</p>
-                                   </Segment>
-                                   <Segment className='d-flex align-items-center gap-4 my-4'>
-                                        <img src={bni} alt='bni' className='payment-image'></img>
-                                        <p className='my-0'>BNI Transfer</p>
-                                   </Segment>
-                                   <Segment className='d-flex align-items-center gap-4 my-4'>
-                                        <img src={mandiri} alt='mandiri' className='payment-image'></img>
-                                        <p className='my-0'>Mandiri Transfer</p>
-                                   </Segment>
+                                    <>{bank.map((item, index) => {
+                                        return <Segment className="d-flex align-items-center justify-content-between">
+                                            <Button className='d-flex align-items-center gap-4 my-3' 
+                                                    style={{width: "100%", border:"none", background: "none"}} 
+                                                    onClick={() => handleClick(item.id)}>
+                                                        <img src={item.img} className='payment-image'></img>
+                                                        <p className='my-0 paragraph-summary'>{item.name}</p>
+                                                        <i className="line-1"></i>
+                                            </Button>
+                                            {item.id === selectBank && 
+                                            <Segment>
+                                                <p className="fa-solid fa-check d-flex align-items-center my-0" style={{color: "#5CB85F"}}></p>
+                                            </Segment>
+                                            }
+                                        </Segment>
+                                    })}</>
                                 </Segment>
                             </Segment>
                         </Col>
@@ -76,15 +83,16 @@ const Payment = (props) => {
                             <Segment className="card card-size d-flex flex-column p-4">
                                 <Segment className="py-4 detail-car-subitem-2">
                                     <Segment className="py-1 title-form">Inova</Segment>
-                                    <Segment className="mb-4 py-1 paragraph-form">
-                                        <i className='fa fa-users'> 6 - 8 </i>
+                                    <Segment className="mb-4 py-1 paragraph-form d-flex gap-2">
+                                        <i className='fa fa-users'></i>
+                                        <p className='my-0'>6 - 8 Orang</p>
                                     </Segment>
                                     <Segment className="d-flex align-items-center justify-content-between">
                                         <Segment className="py-1 title-form d-flex gap-2 align-items-center">Total 
-                                        <Button onClick={handleClick} class="fa-solid fa-chevron-up" style={{background:"none", border:"none"}}></Button></Segment>
+                                        <Button onClick={() => toggleShow(!show)} style={{background:"none", border:"none"}}>{show ? <i className='fa-solid fa-chevron-up'></i> : <i className='fa-solid fa-chevron-down'></i>}</Button></Segment>
                                         <Segment className="py-1 title-form">Rp 3.500.000</Segment>
                                     </Segment>
-                                    {toggle ?
+                                    {show &&
                                         <Segment>
                                             <Segment className="py-2">
                                                 <Segment className="py-1 title-form">Harga</Segment>
@@ -97,11 +105,11 @@ const Payment = (props) => {
                                                 <Segment className="py-1 title-form">Biaya Lainnya</Segment>
                                                 <Segment className="py-1 d-flex align-items-center justify-content-between paragraph-form">
                                                     <li>Pajak</li>
-                                                    <Segment>Termasuk</Segment>
+                                                    <Segment style={{color:'#5CB85F'}}>Termasuk</Segment>
                                                 </Segment>
                                                 <Segment className="py-1 d-flex align-items-center justify-content-between paragraph-form">
                                                     <li>Biaya Makan Supir</li>
-                                                    <Segment>Termasuk</Segment>
+                                                    <Segment style={{color:'#5CB85F'}}>Termasuk</Segment>
                                                 </Segment>
                                             </Segment>
                                             <Segment className="py-2">
@@ -114,8 +122,6 @@ const Payment = (props) => {
                                                 </Segment>
                                             </Segment>
                                         </Segment>
-                                        :
-                                        <></>
                                     }
                                     
                                     <Segment className="line-1"></Segment>

@@ -4,18 +4,17 @@ import { Col, Row, Spinner } from 'reactstrap';
 import Button from '../../../component/Button';
 import Segment from '../../../component/Segment';
 import bca from '../../../assets/images/payment/bca.png'
+import BackButton from '../../../component/BackButton';
 
 
 const Payment = (props) => {
     
-    const useToggle = (initialState) => {
-        const [toggleValue, setToggleValue] = useState(initialState);
+    const navigate = useNavigate()
+    const [show, toggleShow] = useState(true);
     
-        const toggler = () => {setToggleValue(!toggleValue)};
-        return [toggleValue, toggler]
-    };
-    
-    const [toggle, setToggle] = useToggle();
+    const goBack = () => {
+        navigate(-1)
+    }
 
     return(
         <>
@@ -23,8 +22,7 @@ const Payment = (props) => {
             <Segment className="container-search container">
                 <Segment className="d-flex confirm-nav justify-content-between flex-row">
                     <Segment className="nav-left d-flex gap-4 align-items-center title-form ">
-                        <i class="fa-solid fa-arrow-left"></i>
-                        BCA Transfer
+                        <BackButton>BCA Transfer</BackButton>
                     </Segment>
                     <Segment className="nav-right d-flex gap-2 align-items-center title-form justify-content-end">
                         Pilih Metode 
@@ -120,19 +118,20 @@ const Payment = (props) => {
                                 </Segment>
                             </Segment>
                         </Col>
+                        {show &&(
                         <Col md={5}>
                             <Segment className="card card-size d-flex flex-column p-4">
                                 <Segment className="py-4 detail-car-subitem-2">
                                     <Segment className="py-1 paragraph-form d-flex align-items-center justify-content-center">Klik konfirmasi pembayaran untuk mempercepat proses pengecekan</Segment>
                                     <Button
-                                        onClick={setToggle}
+                                        onClick={() => toggleShow(!show)}
                                         className="btn btn-success">
-                                        Bayar
+                                            Bayar
                                     </Button>
                                 </Segment>
                             </Segment>
-                        </Col>
-                        {toggle &&(
+                        </Col>)}
+                        {!show &&(
                         <Col md={5}>
                             <Segment className="card card-size d-flex flex-column p-4">
                                 <Segment className="py-4 detail-car-subitem-2">
@@ -141,7 +140,7 @@ const Payment = (props) => {
                                     <h6 className='title-form mx-0'>Upload Bukti Pembayaran</h6>
                                     <p className='paragraph-form mx-0'>Untuk membantu kami lebih cepat melakukan pengecekan. Kamu bisa upload bukti bayarmu</p>
                                     <Button
-                                        onClick={setToggle}
+                                        // onClick={}
                                         className="btn btn-success">
                                         Upload
                                     </Button>
