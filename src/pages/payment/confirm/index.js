@@ -1,10 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Col, Row, Spinner } from 'reactstrap';
 import Button from '../../../component/Button';
 import Segment from '../../../component/Segment';
 import bca from '../../../assets/images/payment/bca.png'
 import BackButton from '../../../component/BackButton';
+import CountdownTimerDays from '../../../component/CountdownTimerDays';
+import CountdownTimer from '../../../component/CountdownTimer';
+import UploadImage from '../../../component/UploadImage';
+
+
 
 
 const Payment = (props) => {
@@ -12,9 +17,17 @@ const Payment = (props) => {
     const navigate = useNavigate()
     const [show, toggleShow] = useState(true);
     
-    const goBack = () => {
-        navigate(-1)
-    }
+    const COUNTER_IN_MS = 24 * 60 * 60 * 1000;
+    const NOW_IN_MS = new Date().getTime();
+    const dateTimeOneDay = NOW_IN_MS + COUNTER_IN_MS;
+    
+    const COUNTER_IN_MS2 = 10 * 60 * 1000;
+    const NOW_IN_MS2 = new Date().getTime();
+    const dateTimeTenMin = NOW_IN_MS2 + COUNTER_IN_MS2;
+
+    const {state} = useLocation();
+    console.log(state);
+    // const { state } = this.props.location
 
     return(
         <>
@@ -36,19 +49,24 @@ const Payment = (props) => {
             <Segment className="contains-box contains-car">
                     <Row className='container p-0'>
                         <Col md={7}>
-                            <Segment className="card p-4 mb-4">
+                            <Segment className="card p-4 mb-4 d-flex flex-row justify-content-between">
                                 <Segment className="title">
                                     <h6 className='title-form mb-4'>Selesaikan Pembayaran Sebelum</h6>
                                     <p className='paragraph-summary'>Rabu, 19 Mei 2022 jam 13.00 WIB</p>
+                                </Segment>
+                                <Segment>
+                                    <CountdownTimerDays targetDate={dateTimeOneDay}/>
+                                    {/* <span id='timer'></span> */}
+                                    {/* <timerCountdown><span id='timer'></span></timerCountdown> */}
                                 </Segment>
                             </Segment>
                             <Segment className="card p-4 mb-4">
                                 <Segment className="title">
                                     <h6 className='title-form mb-4'>Lakukan Transfer Ke</h6>
                                     <Segment className='d-flex align-items-center gap-4 my-4'>
-                                        <img src={bca} alt='bca' className='payment-image'></img>
+                                        <img src={state?.img} alt='bca' className='payment-image'></img>
                                         <Segment>
-                                            <p className='my-0'>BCA Transfer</p>
+                                            <p className='my-0'>{state?.name}</p>
                                             <p className='my-0'>a.n Binar Car Rental</p>
                                         </Segment>
                                     </Segment>
@@ -118,7 +136,9 @@ const Payment = (props) => {
                                 </Segment>
                             </Segment>
                         </Col>
-                        {show &&(
+                        {show &&
+                        
+                        (
                         <Col md={5}>
                             <Segment className="card card-size d-flex flex-column p-4">
                                 <Segment className="py-4 detail-car-subitem-2">
@@ -135,10 +155,15 @@ const Payment = (props) => {
                         <Col md={5}>
                             <Segment className="card card-size d-flex flex-column p-4">
                                 <Segment className="py-4 detail-car-subitem-2">
-                                    <h6 className='title-form mx-0'>Konfirmasi Pembayaran</h6>
+                                    <Segment className="d-flex justify-content-between align-items-center">
+                                        <h6 className='title-form mx-0'>Konfirmasi Pembayaran</h6>
+                                        {/* <span id='timer'></span> */}
+                                        <CountdownTimer targetDate={dateTimeTenMin}/>
+                                    </Segment>
                                     <p className='paragraph-form mx-0'>Terima kasih telah melakukan konfirmasi pembayaran. Pembayaranmu akan segera kami cek tunggu kurang lebih 10 menit untuk mendapatkan konfirmasi.</p>
                                     <h6 className='title-form mx-0'>Upload Bukti Pembayaran</h6>
                                     <p className='paragraph-form mx-0'>Untuk membantu kami lebih cepat melakukan pengecekan. Kamu bisa upload bukti bayarmu</p>
+                                    <UploadImage></UploadImage>
                                     <Button
                                         // onClick={}
                                         className="btn btn-success">

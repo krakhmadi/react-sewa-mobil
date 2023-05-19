@@ -130,7 +130,7 @@ const DetailCar = (props) => {
                                         <Segment className="title-form">{formatNumber(data?.price)}</Segment>
                                     </Segment>
                                     <Button
-                                        onClick={() => navigate('/payment')}
+                                        onClick={() => navigate(`/payment/${id}`)}
                                         className="btn btn-success">
                                         Lanjutkan Pembayaran
                                     </Button>

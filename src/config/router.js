@@ -12,7 +12,7 @@ const publicRoutes = (props) => {
         { index: true, path: '/cari-mobil', element: <SearchCar {...props} title="Cari Mobil" />, },
         { index: true, path: '/login', element: <Login {...props} title="Login" />, },
         { index: true, path: '/cari-mobil/:id', element: <DetailCar  {...props} title="Cari Mobil" />, },
-        { index: true, path: '/payment/', element: <Payment  {...props} title="Pembayaran" />, },
+        { index: true, path: '/payment/:id', element: <Payment  {...props} title="Pembayaran" />, },
         { index: true, path: '/confirm/', element: <Confirm {...props} title="Confirm" />, },
         { index: true, path: '*', element: <div>Halaman Not Found</div> },
     ]

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Card, Col, Row, Spinner } from 'reactstrap';
 import Button from '../../../component/Button';
 import Segment from '../../../component/Segment';
@@ -8,20 +8,48 @@ import Summary from '../../../component/Summary';
 import bca from '../../../assets/images/payment/bca.png'
 import bni from '../../../assets/images/payment/bni.png'
 import mandiri from '../../../assets/images/payment/mandiri.png'
+import { fetchApi } from '../../../config/services';
 
 const Payment = (props) => {
     const navigate = useNavigate()
     const [show, toggleShow] = useState(true);
     
-    const [selectBank, setSelectBank] = useState([])
+    const [selectBank, setSelectBank] = useState()
     const bank = [
-        {id: 1, img: bca, name: "BCA Transfer"},
-        {id: 2, img: bni, name: "BNI Transfer"},
-        {id: 3, img: mandiri, name: "Mandiri Transfer"},
+        {img: bca, name: "BCA Transfer"},
+        {img: bni, name: "BNI Transfer"},
+        {img: mandiri, name: "Mandiri Transfer"},
     ]
+    const found = bank.find(item => item.name === selectBank);
+    console.log(found);
+
     const handleClick = (params) => {
         setSelectBank(params)
     }
+    const carSize = {
+        small: "2 - 4 Orang",
+        medium: "4 - 6 Orang",
+        large: "6 - 8 Orang"
+    }
+
+    const [data, setData] = useState(null);
+    const [loader, setloader] = useState("idle");
+    const { id } = useParams();
+    const fetchingCar = useCallback((params = null) => {
+        setloader("fetching")
+        fetchApi(`https://bootcamp-rent-cars.herokuapp.com/customer/car/${id}`, params).then(result => {
+            setData(result.data)
+            setloader("resolve")
+        }).catch(e => {
+            setloader("reject")
+        })
+    }, [id])
+
+    useEffect(() => {
+        fetchingCar()
+    }, [fetchingCar])
+
+    const formatNumber = (number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(number);
     
     return(
         <>
@@ -44,8 +72,8 @@ const Payment = (props) => {
                 <Segment className="search-bar">
                     <h3 className="title-form">Detail Pesananmu</h3>
                     <Segment className="row search-form">
-                        <Summary md={3} className='search-form-item' disabled={true} label="Nama Mobil" p="Innova"/>
-                        <Summary md={3} className='search-form-item' disabled={true} label="Kategori" p="6 - 8 Orang"/>
+                        <Summary md={3} className='search-form-item' disabled={true} label="Nama Mobil" p={data?.name}/>
+                        <Summary md={3} className='search-form-item' disabled={true} label="Kategori" p={carSize[data?.category]}/>
                         <Summary md={3} className='search-form-item' disabled={true} label="Tanggal Mulai Sewa" p="2 Jun 2022"/>
                         <Summary md={3} className='search-form-item' disabled={true} label="Tanggal Akhir Sewa" p="8 Jun 2022"/>
                     </Segment>
@@ -62,14 +90,16 @@ const Payment = (props) => {
                                 <Segment className="payment-bank">
                                     <>{bank.map((item, index) => {
                                         return <Segment className="d-flex align-items-center justify-content-between">
-                                            <Button className='d-flex align-items-center gap-4 my-3' 
-                                                    style={{width: "100%", border:"none", background: "none"}} 
-                                                    onClick={() => handleClick(item.id)}>
-                                                        <img src={item.img} className='payment-image'></img>
-                                                        <p className='my-0 paragraph-summary'>{item.name}</p>
-                                                        <i className="line-1"></i>
+                                            <Button 
+                                                onChange={setSelectBank} value={selectBank}
+                                                className='d-flex align-items-center gap-4 my-3' 
+                                                style={{width: "100%", border:"none", background: "none"}} 
+                                                onClick={() => handleClick(item.name)}>
+                                                                <img src={item.img} className='payment-image'></img>
+                                                                <p className='my-0 paragraph-summary'>{item.name}</p>
+                                                                <i className="line-1"></i>
                                             </Button>
-                                            {item.id === selectBank && 
+                                            {item.name === selectBank && 
                                             <Segment>
                                                 <p className="fa-solid fa-check d-flex align-items-center my-0" style={{color: "#5CB85F"}}></p>
                                             </Segment>
@@ -82,15 +112,15 @@ const Payment = (props) => {
                         <Col md={5}>
                             <Segment className="card card-size d-flex flex-column p-4">
                                 <Segment className="py-4 detail-car-subitem-2">
-                                    <Segment className="py-1 title-form">Inova</Segment>
+                                    <Segment className="py-1 title-form">{data?.name}</Segment>
                                     <Segment className="mb-4 py-1 paragraph-form d-flex gap-2">
                                         <i className='fa fa-users'></i>
-                                        <p className='my-0'>6 - 8 Orang</p>
+                                        <p className='my-0'>{carSize[data?.category]}</p>
                                     </Segment>
                                     <Segment className="d-flex align-items-center justify-content-between">
                                         <Segment className="py-1 title-form d-flex gap-2 align-items-center">Total 
                                         <Button onClick={() => toggleShow(!show)} style={{background:"none", border:"none"}}>{show ? <i className='fa-solid fa-chevron-up'></i> : <i className='fa-solid fa-chevron-down'></i>}</Button></Segment>
-                                        <Segment className="py-1 title-form">Rp 3.500.000</Segment>
+                                        <Segment className="py-1 title-form">{formatNumber(data?.price)}</Segment>
                                     </Segment>
                                     {show &&
                                         <Segment>
@@ -98,7 +128,7 @@ const Payment = (props) => {
                                                 <Segment className="py-1 title-form">Harga</Segment>
                                                 <Segment className="py-1 d-flex align-items-center justify-content-between paragraph-form">
                                                     <li>Sewa Mobil Rp.500.000 x 7 Hari</li>
-                                                    <Segment>Rp 3.500.000</Segment>
+                                                    <Segment>{formatNumber(data?.price)}</Segment>
                                                 </Segment>
                                             </Segment>
                                             <Segment className="py-2">
@@ -127,11 +157,12 @@ const Payment = (props) => {
                                     <Segment className="line-1"></Segment>
                                     <Segment className="py-2 d-flex align-items-center justify-content-between title-form">
                                         <Segment className="py-1">Total</Segment>
-                                        <Segment className="py-1">Rp 3.500.000</Segment>
+                                        <Segment className="py-1">{formatNumber(data?.price)}</Segment>
                                     </Segment>
                                     <Button
-                                        onClick={() => navigate('/confirm')}
-                                        className="btn btn-success">
+                                        onClick={() => navigate('/confirm',{state: {...found}})}
+                                        className="btn btn-success"
+                                        disabled={!selectBank}>
                                         Bayar
                                     </Button>
                                 </Segment>
