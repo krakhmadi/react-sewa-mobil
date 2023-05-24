@@ -1,20 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './assets/css/index.css';
-import './assets/css/global-style.css'
-import './assets/css/hasil-pencarian.css'
-import './assets/css/payment.css'
-import './assets/css/confirm.css'
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./assets/css/index.css";
+import "./assets/css/global-style.css";
+import "./assets/css/hasil-pencarian.css";
+import "./assets/css/payment.css";
+import "./assets/css/confirm.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom";
+import "rsuite/dist/rsuite.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter basename="/">
     <App />
-  </BrowserRouter>
+  </BrowserRouter>,
 );
 
 // If you want to start measuring performance in your app, pass a function
