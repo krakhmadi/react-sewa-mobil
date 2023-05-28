@@ -1,0 +1,22 @@
+.login-image {
+  transform: scale(120%);
+}
+
+@media only screen and (max-width: 1600px) {
+  .login-image {
+    transform: scale(90%);
+  }
+}
+
+@media only screen and (max-width: 1400px) {
+  .login-right {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1400px) {
+  .login-left {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}

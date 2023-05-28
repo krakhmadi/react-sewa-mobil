@@ -15,6 +15,9 @@ const Payment = (props) => {
   const [show, toggleShow] = useState(true);
 
   const [selectBank, setSelectBank] = useState();
+  const [data, setData] = useState(null);
+  const [loader, setloader] = useState("idle");
+  const [total, setTotal] = useState(0);
 
   const bank = [
     { img: bca, name: "BCA Transfer", bank_id: "BCA" },
@@ -31,10 +34,6 @@ const Payment = (props) => {
     medium: "4 - 6 Orang",
     large: "6 - 8 Orang",
   };
-
-  const [data, setData] = useState(null);
-  const [loader, setloader] = useState("idle");
-  const [total, setTotal] = useState(0);
 
   const { id } = useParams();
   const fetchingCar = useCallback(

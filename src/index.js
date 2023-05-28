@@ -6,6 +6,7 @@ import "./assets/css/global-style.css";
 import "./assets/css/hasil-pencarian.css";
 import "./assets/css/payment.css";
 import "./assets/css/confirm.css";
+import "./assets/css/login.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";

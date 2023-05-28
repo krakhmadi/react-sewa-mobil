@@ -6,6 +6,7 @@ import Login from "../pages/register/login";
 import Payment from "../pages/payment/summary";
 import Confirm from "../pages/payment/confirm";
 import Tiket from "../pages/payment/e-tiket";
+import Signup from "../pages/register/signup";
 
 const publicRoutes = (props) => {
   return [
@@ -39,6 +40,11 @@ const publicRoutes = (props) => {
       index: true,
       path: "/tiket/",
       element: <Tiket {...props} title="Tiket" />,
+    },
+    {
+      index: true,
+      path: "/signup/",
+      element: <Signup {...props} title="Signup" />,
     },
     { index: true, path: "*", element: <div>Halaman Not Found</div> },
   ];
