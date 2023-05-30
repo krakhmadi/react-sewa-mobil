@@ -277,7 +277,7 @@ const Payment = (props) => {
                   <Button
                     onClick={() => navigate("/tiket")}
                     className="upload-btn btn btn-success"
-                    disabled={!file}
+                    // disabled={!file}
                   >
                     Upload
                   </Button>

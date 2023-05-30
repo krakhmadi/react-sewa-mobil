@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/images/logo/rentalll.png";
 import SideBar from "../component/Sidebar";
 import Button from "../component/Button";
+import { LoginToken } from "../config/login-token";
 
 const Header = (props) => {
   const navigate = useNavigate();
@@ -52,12 +53,31 @@ const Header = (props) => {
                 </a>
               </li>
               <li>
-                <Button
-                  onClick={() => navigate("/login")}
-                  className="nav-item btn btn-success"
-                >
-                  Register
-                </Button>
+                {!LoginToken ? (
+                  <Button
+                    onClick={() => navigate("/login")}
+                    className="nav-item btn btn-success"
+                  >
+                    Register
+                  </Button>
+                ) : (
+                  <Button
+                    className="nav-item btn "
+                    style={{
+                      background: "#F0F3FF",
+                      border: "solid",
+                      borderColor: "#0D28A6",
+                      color: "#0D28A6",
+                    }}
+                    onClick={() => {
+                      navigate("/");
+                      localStorage.removeItem("ACCESS_TOKEN");
+                      window.location.reload();
+                    }}
+                  >
+                    Logout
+                  </Button>
+                )}
               </li>
             </ul>
             <div className="text-end">

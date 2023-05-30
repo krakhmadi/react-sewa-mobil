@@ -13,6 +13,7 @@ function UploadImage() {
     setFile(file);
   };
   const [isUpload, setIsUpload] = useState();
+  console.log(file);
 
   return (
     <FileUploader handleChange={handleChange} name="file" types={fileTypes}>

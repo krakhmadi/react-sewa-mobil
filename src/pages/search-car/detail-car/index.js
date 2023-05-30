@@ -8,6 +8,7 @@ import SelectBox from "../../../component/Selectbox";
 import { fetchApi } from "../../../config/services";
 import "rsuite/styles/index.less";
 import RangeCalendar from "../../../component/RangeCalender";
+import { LoginToken } from "../../../config/login-token";
 
 const carSize = {
   small: "2 - 4 Orang",
@@ -19,6 +20,7 @@ const DetailCar = (props) => {
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [date, setDate] = useState();
+  console.log(date);
   const [loader, setloader] = useState("idle");
   const { id } = useParams();
   const fetchingCar = useCallback(
@@ -38,6 +40,10 @@ const DetailCar = (props) => {
     },
     [id],
   );
+
+  const handleClick = () => {
+    !LoginToken ? navigate("/login") : navigate("/payment");
+  };
 
   useEffect(() => {
     fetchingCar();
@@ -172,7 +178,11 @@ const DetailCar = (props) => {
                         Tentukan lama sewa mobil (max. 7 hari)
                       </p>
                     </Segment>
-                    <RangeCalendar />
+                    <RangeCalendar
+                      onChange={setDate}
+                      name="startDate"
+                      value={date}
+                    />
                     <Segment className="d-flex justify-content-between py-1">
                       <Segment className="title-form">Total</Segment>
                       <Segment className="title-form">
@@ -180,8 +190,14 @@ const DetailCar = (props) => {
                       </Segment>
                     </Segment>
                     <Button
-                      onClick={() => navigate(`/payment/${id}`)}
+                      // onClick={() => navigate(`/payment/${id}`)}
                       className="btn btn-success"
+                      disabled={!date}
+                      onClick={() =>
+                        !LoginToken
+                          ? navigate("/login")
+                          : navigate(`/payment/${id}`, { state: { date } })
+                      }
                     >
                       Lanjutkan Pembayaran
                     </Button>

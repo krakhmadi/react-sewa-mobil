@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { Card, Col, Row, Spinner } from "reactstrap";
 import Button from "../../../component/Button";
 import Segment from "../../../component/Segment";
@@ -13,7 +13,6 @@ import { fetchApi } from "../../../config/services";
 const Payment = (props) => {
   const navigate = useNavigate();
   const [show, toggleShow] = useState(true);
-
   const [selectBank, setSelectBank] = useState();
   const [data, setData] = useState(null);
   const [loader, setloader] = useState("idle");
@@ -53,15 +52,28 @@ const Payment = (props) => {
     },
     [id],
   );
-  console.log({ data });
 
   useEffect(() => {
     fetchingCar();
   }, []);
 
+  const location = useLocation();
+  const passingDate = location.state;
+  const date1 = passingDate?.date[0].getDate();
+  const date2 = passingDate?.date[1].getDate();
+  const totalDate = Math.abs(date1 - date2);
+
+  let options = {
+    weekday: "long",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  };
+
+  console.log(totalDate);
+
   useEffect(() => {
-    console.log(data, "ini data");
-    if (data && data.price) setTotal(data.price * 7);
+    if (data && data.price) setTotal(data.price * totalDate);
   }, [data, setTotal]);
 
   const formatNumber = (number) =>
@@ -128,14 +140,14 @@ const Payment = (props) => {
               className="search-form-item"
               disabled={true}
               label="Tanggal Mulai Sewa"
-              p="2 Jun 2022"
+              p={passingDate?.date[0].toLocaleDateString("en-GB", options)}
             />
             <Summary
               md={3}
               className="search-form-item"
               disabled={true}
               label="Tanggal Akhir Sewa"
-              p="8 Jun 2022"
+              p={passingDate?.date[1].toLocaleDateString("en-GB", options)}
             />
           </Segment>
         </Segment>
@@ -223,7 +235,7 @@ const Payment = (props) => {
                         </Button>
                       </Segment>
                       <Segment className="py-1 title-form">
-                        {formatNumber(data?.price)}
+                        {formatNumber(total)}
                       </Segment>
                     </Segment>
                     {show && (
@@ -231,7 +243,10 @@ const Payment = (props) => {
                         <Segment className="py-2">
                           <Segment className="py-1 title-form">Harga</Segment>
                           <Segment className="py-1 d-flex align-items-center justify-content-between paragraph-form">
-                            <li>Sewa Mobil {data?.price} x 7 Hari</li>
+                            <li>
+                              Sewa Mobil {formatNumber(data?.price)} x{" "}
+                              {totalDate} Hari
+                            </li>
                             <Segment>{formatNumber(total)}</Segment>
                           </Segment>
                         </Segment>

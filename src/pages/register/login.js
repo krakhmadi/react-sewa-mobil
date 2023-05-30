@@ -3,12 +3,38 @@ import { Col, Row } from "reactstrap";
 import Segment from "../../component/Segment";
 import loginimage from "../../assets/images/landing_page.png";
 import InputForm from "../../component/InputForm";
+import Form from "../../component/Form";
 import Button from "../../component/Button";
 import logo from "../../assets/images/logo/rentalll.png";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Services } from "../../config/services";
 
 const Login = (props) => {
   const navigate = useNavigate();
+  const [state, setState] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setState((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    Services()
+      .post("https://bootcamp-rent-cars.herokuapp.com/customer/auth/login", {
+        ...state,
+      })
+      .then((response) => {
+        const { data } = response;
+        localStorage.setItem("ACCESS_TOKEN", data.access_token);
+        window.location.replace("/");
+      })
+      .catch((err) => err.message);
+  };
 
   return (
     <>
@@ -21,13 +47,17 @@ const Login = (props) => {
             <div className="login-left py-4">
               <img src={logo} />
               <h3 className="my-4">Welcome Back</h3>
-              <div className="d-flex flex-column align-items-center gap-2">
+              <Form
+                className="jancok d-flex flex-column align-items-center gap-2"
+                onSubmit={handleSubmit}
+              >
                 <InputForm
                   className="form-control col-md-3 search-form-item"
                   name="email"
                   label="Email"
                   placeholder="binarcarrental@mail.com"
                   style={{ color: "#8A8A8A", width: "370px" }}
+                  onChange={handleChange}
                 />
                 <InputForm
                   className="form-control col-md-3 search-form-item"
@@ -35,9 +65,11 @@ const Login = (props) => {
                   label="Password"
                   placeholder="8+ karakter"
                   style={{ color: "#8A8A8A", width: "370px" }}
+                  onChange={handleChange}
                 />
                 <Button
                   className="title-form py-2 my-4"
+                  type="submit"
                   style={{
                     color: "white",
                     backgroundColor: "#0D28A6",
@@ -61,7 +93,7 @@ const Login = (props) => {
                     </h6>
                   </Button>
                 </div>
-              </div>
+              </Form>
             </div>
           </Col>
           <Col
