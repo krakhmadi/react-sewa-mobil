@@ -40,7 +40,7 @@ const Signup = (props) => {
                   className="form-control col-md-3 search-form-item"
                   name="password"
                   label="Create Password"
-                  placeholder="8+ karakter"
+                  placeholder="6+ karakter"
                   style={{ color: "#8A8A8A", width: "370px" }}
                 />
                 <Button
